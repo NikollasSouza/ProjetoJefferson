@@ -18,7 +18,7 @@ namespace LoginCadastroApp
                 Console.WriteLine("=== MENU PRINCIPAL ===");
                 Console.WriteLine("[1] Fazer Login");
                 Console.WriteLine("[2] Cadastrar Usuário");
-                Console.WriteLine("[3] Deletar Usuário");
+                Console.WriteLine("[3] Ver Produtos");
                 Console.WriteLine("[4] Sair");
                 Console.Write("Escolha uma opção: ");
 
@@ -33,7 +33,7 @@ namespace LoginCadastroApp
                         CadastrarUsuario();
                         break;
                     case "3":
-                        DeletarUsuario();
+                        VerProdutos();
                         break;
                     case "4":
                         sair = true;
@@ -147,17 +147,11 @@ namespace LoginCadastroApp
             }
         }
 
-        // MÉTODO PARA DELETAR USUÁRIO
-        static void DeletarUsuario()
+        // Método para visualizar os produtos da loja
+        static void VerProdutos()
         {
             Console.Clear();
-            Console.WriteLine("=== DELETAR USUÁRIO ===\n");
-
-            Console.Write("Digite o email do usuário que deseja deletar: ");
-            string email = Console.ReadLine();
-
-            string queryCheck = "SELECT COUNT(*) FROM usuarios WHERE email = @email";
-            string queryDelete = "DELETE FROM usuarios WHERE email = @email";
+            Console.WriteLine("=== Produtos em nossa loja ===\n");
 
             try
             {
@@ -165,50 +159,41 @@ namespace LoginCadastroApp
                 {
                     conn.Open();
 
-                    // Verifica se o usuário existe
-                    using (MySqlCommand cmdCheck = new MySqlCommand(queryCheck, conn))
+                    // Query para selecionar todos os produtos
+                    string query = "SELECT id, nome, descricao, valor, categoria, estoque, peso, largura, altura, profundidade FROM Produtos";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmdCheck.Parameters.AddWithValue("@email", email);
-                        int count = Convert.ToInt32(cmdCheck.ExecuteScalar());
-
-                        if (count == 0)
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            Console.WriteLine("\n❌ Nenhum usuário encontrado com esse email.");
-                            return;
-                        }
-                    }
+                            // Exibe os cabeçalhos das colunas
+                            Console.WriteLine("{0,-5} | {1,-32} | {2,-11} | {3,-10} | {4,-10} | {5,-10} | {6,-10} | {7,-10} | {8,-8} | {9,-12}",
+                                "ID", "Nome", "Valor", "Categoria", "Estoque", "Peso", "Largura", "Altura", "Profundidade", "Descrição");
 
-                    // Confirmação antes de deletar
-                    Console.Write("Tem certeza que deseja deletar este usuário? (s/n): ");
-                    string confirmacao = Console.ReadLine();
+                            Console.WriteLine(new string('-', 150)); // Linha separadora
 
-                    if (confirmacao.ToLower() != "s")
-                    {
-                        Console.WriteLine("\n❌ Operação cancelada.");
-                        return;
-                    }
-
-                    // Deleta o usuário
-                    using (MySqlCommand cmdDelete = new MySqlCommand(queryDelete, conn))
-                    {
-                        cmdDelete.Parameters.AddWithValue("@email", email);
-
-                        int rowsAffected = cmdDelete.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            Console.WriteLine("\n✅ Usuário deletado com sucesso!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("\n❌ Erro ao deletar usuário.");
+                            // Lê cada linha do resultado
+                            while (reader.Read())
+                            {
+                                Console.WriteLine("{0,-5} | {1,-30} | {2,-11:C} | {3,-10} | {4,-10} | {5,-10} | {6,-10} | {7,-10} | {8,-12} | {9,-12}",
+                                    reader["id"],
+                                    reader["nome"],
+                                    Convert.ToDecimal(reader["valor"]),
+                                    reader["categoria"],
+                                    reader["estoque"],
+                                    reader["peso"],
+                                    reader["largura"],
+                                    reader["altura"],
+                                    reader["profundidade"],
+                                    reader["descricao"]);
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("\n⚠️ Erro ao conectar ao banco: " + ex.Message);
+                Console.WriteLine($"Erro ao listar produtos: {ex.Message}");
             }
         }
     }
