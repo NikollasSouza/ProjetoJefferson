@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // ProdutosForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::teste2.Properties.Resources.c158bcf6_2fea_4c47_bb3b_45970bf17b7d;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "ProdutosForm";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

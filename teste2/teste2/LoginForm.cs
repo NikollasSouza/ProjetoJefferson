@@ -18,10 +18,10 @@ namespace LoginCadastroApp.WinForms
             this.Size = new System.Drawing.Size(350, 200);
 
             // Cria e configura os controles
-            Label lblEmail = new Label() { Text = "Email:", Location = new Point(20, 20) };
+            Label lblEmail = new Label() { Text = "Email:", Location = new Point(0, 20) };
             TextBox txtEmail = new TextBox() { Location = new Point(100, 20), Width = 200 };
 
-            Label lblSenha = new Label() { Text = "Senha:", Location = new Point(20, 60) };
+            Label lblSenha = new Label() { Text = "Senha:", Location = new Point(0, 60) };
             TextBox txtSenha = new TextBox() { Location = new Point(100, 60), Width = 200, PasswordChar = '*' };
 
             // Adiciona botão de login

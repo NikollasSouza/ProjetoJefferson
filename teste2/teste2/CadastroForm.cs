@@ -26,7 +26,7 @@ namespace LoginCadastroApp.WinForms
             Label lblEmail = new Label()
             {
                 Text = "Email:",
-                Location = new Point(20, 20),
+                Location = new Point(20, 15),
                 AutoSize = true
             };
 
@@ -36,36 +36,6 @@ namespace LoginCadastroApp.WinForms
                 Location = new Point(20, 60),
                 AutoSize = true
             };
-
-            // Campos de texto
-            txtEmail = new TextBox()
-            {
-                Location = new Point(100, 20),
-                Width = 200
-            };
-
-            txtSenha = new TextBox()
-            {
-                Location = new Point(100, 60),
-                Width = 200,
-                PasswordChar = '*'
-            };
-
-            // Botões
-            Button btnCadastrar = new Button()
-            {
-                Text = "Cadastrar",
-                Location = new Point(100, 100),
-                Width = 90
-            };
-
-            Button btnCancelar = new Button()
-            {
-                Text = "Cancelar",
-                Location = new Point(210, 100),
-                Width = 90
-            };
-
             // Eventos dos botões
             btnCadastrar.Click += (s, e) =>
             {
